@@ -233,11 +233,11 @@ class exec(object):
 
         logger = logging.getLogger()
 
-        if self.args.framework.name == "torch":
-            # In torch, only option is channels first:
-            if self.args.data.data_format == "channels_last":
-                logger.warning("Torch requires channels_first, switching automatically")
-                self.args.data.data_format = "channels_first"
+        #if self.args.framework.name == "torch":
+        #    # In torch, only option is channels first:
+        #    if self.args.data.data_format == "channels_last":
+        #        logger.warning("Torch requires channels_first, switching automatically")
+        #        self.args.data.data_format = "channels_first"
 
 
 

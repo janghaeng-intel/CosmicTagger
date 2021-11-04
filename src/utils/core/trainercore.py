@@ -43,12 +43,17 @@ class trainercore(object):
             mode        = args.mode.name,
             distributed = args.run.distributed,
             downsample  = args.data.downsample,
-            dataformat  = args.data.data_format,
+            # PyTorch provides an API that converts tensor to channel last
+            # channels_first for PyTorch by default. Input will be converted at forward pass if needed
+            dataformat  = args.data.data_format if args.framework.name != 'torch' else 'channels_first',
             synthetic   = args.data.synthetic,
             sparse      = sparse )
 
-        if args.data.data_format == "channels_first": self._channels_dim = 1
-        if args.data.data_format == "channels_last" : self._channels_dim = -1
+        if args.framework.name == 'torch':
+            self._channels_dim = 1
+        else:
+            if args.data.data_format == "channels_first": self._channels_dim = 1
+            if args.data.data_format == "channels_last" : self._channels_dim = -1
 
 
 

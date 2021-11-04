@@ -641,7 +641,11 @@ class torch_trainer(trainercore):
             minibatch_data = self.to_torch(minibatch_data)
             labels_image = minibatch_data['label']
             # Run a forward pass of the model on the input image:
-            logits_image = self._net(minibatch_data['image'])
+            # Convert input tensor's memory_format if channels_last argument was passed
+            if self.args.data.data_format == "channels_last":
+                logits_image = self._net(minibatch_data['image'].to(memory_format=torch.channels_last))
+            else:
+                logits_image = self._net(minibatch_data['image'])
 
 
             labels_image = labels_image.long()
